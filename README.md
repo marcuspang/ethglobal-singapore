@@ -15,6 +15,15 @@ In my proto-kit app, I have achieved the following:
 - public trade submission
 - public token registry for pools (unique based on token pair)
 
+## Other Approaches
+
+1. Submit ZKPs to `submitOrder` function, which will then update the order book commitment, and the protocol will perform the trade matching separately.
+   - This approach required some sort of off-chain storage of orders, which could be considered an improvement over the current implementation where order book is public
+   - However, this runs into the same problem where 2 incoming orders using the same commitment will be incompatible, since the proof generated does not account for the other other's submission
+   - My attempt to use a ZKP is in https://github.com/marcuspang/ethglobal-singapore/pull/1
+2. Move the matching logic to a protocol lifecycle hook
+   - This has essentially the same security properties as my implementation, but may be more convenient / ergonomic, since I am currently monkey-patching the `getTxs` function in `dark-pool-mempool.ts`
+
 ## Features
 
 - [x] Create a dark pool for 2 tokens
