@@ -1,3 +1,5 @@
+import { ScrollTextIcon } from "lucide-react";
+
 export default function GuidePage() {
   return (
     <div className="py-12">
@@ -8,7 +10,8 @@ export default function GuidePage() {
         </li>
         <li>
           Creating a Pool: Go to pools page and click "Create Pool". You will
-          need to pay a fee to create the pool.
+          need to pay a fee to create the pool. Whitelist users to swap on your
+          pool by clicking on the <ScrollTextIcon className="inline" /> icon.
         </li>
         <li>Lending: Go to the lending page and click "Lend" to earn yield.</li>
         <li>
