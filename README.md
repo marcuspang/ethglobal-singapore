@@ -1,5 +1,20 @@
 # Dark Pools on Mina
 
+A dark pool is useful for the following reasons:
+
+1. separate from public trading pool, mitigate price impact with large volume
+2. private trades, avoid being front-runned, MEV
+3. less slippage
+
+In my proto-kit app, I have achieved the following:
+
+- private trade matching (using custom sequencer)
+- delayed trade execution (based on block heights)
+- expiration of orders (based on block heights)
+- public LP operations
+- public trade submission
+- public token registry for pools (unique based on token pair)
+
 ## Features
 
 - [x] Create a dark pool for 2 tokens
@@ -8,8 +23,10 @@
   - [ ] With zk proof
 - [ ] Execute trades with private values
   - [x] Optionally, make the trade public
-- [ ] Anyone can lend to dark pools
-- [ ] See last price on pool (average of latest bid and ask)
+- [x] Anyone can add liquidity to dark pools
+  - [x] UI
+- [x] Anyone can remove liquidity from dark pools
+  - [ ] UI
 - [ ] Provide hooks for before and after trades (expose some address field for IHook function)
   - [x] custom timestamp for calling match order
 
@@ -17,7 +34,6 @@
 
 ```mermaid
 graph TD
-
     subgraph L2_Rollup[L2 Rollup - Dark Pool]
         RN[Relayer Network]
         LP[Dark Pools]
@@ -25,14 +41,13 @@ graph TD
 
     subgraph Client[Client Side]
         UW[User Wallet]
-        CZKP[ZK Proof Generation]
+        CZKP[Client ZKP]
     end
 
-    %% L2 internal connections
-    RN --> LP
+    RN -- manage --> LP
+    RN -- matchOrders --> LP
     LP --> RN
 
-    %% External connections
     UW -- createPool, whitelistUser, addLiquidity, removeLiquidity --- RN
     UW -- submitTrade ---> CZKP
     CZKP ---> RN
@@ -178,3 +193,9 @@ In order to pass in those CLI option, add it at the end of your command like thi
 3. Go into the framework folder, and build a docker image containing the sources with `docker build -f ./packages/deployment/docker/development-base/Dockerfile -t protokit-base .`
 
 4. Comment out the first line of docker/base/Dockerfile to use protokit-base
+
+## Acknowledgements
+
+- Starter kit: https://github.com/proto-kit/starter-kit
+- Constant LP implementation by kaupangdx: https://github.com/kaupangdx/kaupangdx-new
+- MINA team: super responsive when I needed help with proto-kit
