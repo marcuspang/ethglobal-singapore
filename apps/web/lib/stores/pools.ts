@@ -1,4 +1,4 @@
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { isPendingTransaction } from "@/lib/utils";
 import { Balance, TokenId } from "@proto-kit/library";
 import { PendingTransaction } from "@proto-kit/sequencer";
@@ -220,11 +220,7 @@ export const useCreatePool = () => {
       return pendingTransaction;
     },
     onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast.error("Error", { description: error.message });
     },
   });
 };
@@ -261,11 +257,7 @@ export const useAddLiquidity = () => {
       return pendingTransaction;
     },
     onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast.error("Error", { description: error.message });
     },
   });
 };
@@ -305,11 +297,7 @@ export const useRemoveLiquidity = () => {
       return pendingTransaction;
     },
     onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast.error("Error", { description: error.message });
     },
   });
 };
@@ -343,11 +331,7 @@ export const useSellPath = () => {
       return pendingTransaction;
     },
     onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast.error("Error", { description: error.message });
     },
   });
 };
@@ -378,11 +362,7 @@ export const useWhitelistAddress = () => {
       return pendingTransaction;
     },
     onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast.error("Error", { description: error.message });
     },
   });
 };

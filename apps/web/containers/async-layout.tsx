@@ -1,19 +1,17 @@
 import Header from "@/components/header";
-import { Toaster } from "@/components/ui/toaster";
-import { useToast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/sonner";
 import { useChainStore, usePollBlockHeight } from "@/lib/stores/chain";
 import { useClientStore } from "@/lib/stores/client";
 import { useNotifyTransactions, useWalletStore } from "@/lib/stores/wallet";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useEffect } from "react";
-
+import { toast } from "sonner";
 const queryClient = new QueryClient();
 
 export default function AsyncLayout({ children }: { children: ReactNode }) {
   const wallet = useWalletStore();
   const client = useClientStore();
   const chain = useChainStore();
-  const { toast } = useToast();
 
   usePollBlockHeight();
   useNotifyTransactions();
@@ -35,8 +33,7 @@ export default function AsyncLayout({ children }: { children: ReactNode }) {
         onConnectWallet={wallet.connectWallet}
         onCopyToClipboard={() => {
           navigator.clipboard.writeText(wallet.wallet ?? "");
-          toast({
-            title: "Copied to clipboard",
+          toast.info("Copied to clipboard", {
             description:
               "Your wallet address has been copied to your clipboard",
           });

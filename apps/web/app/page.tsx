@@ -24,7 +24,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useBalancesStore } from "@/lib/stores/balances";
 import { useChainStore } from "@/lib/stores/chain";
 import { useClientStore } from "@/lib/stores/client";
@@ -73,7 +73,6 @@ export default function Home() {
   const balances = useBalancesStore();
   const wallet = useWalletStore();
   const pools = usePoolsStore();
-  const { toast } = useToast();
 
   const inTokenBalance = balances.balances[inToken.toString()] || "0";
   const outTokenBalance = balances.balances[outToken.toString()] || "0";
@@ -110,11 +109,7 @@ export default function Home() {
     },
     onError: (error) => {
       console.error(error);
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast.error("Error", { description: error.message });
     },
   });
 

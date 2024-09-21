@@ -5,7 +5,6 @@ import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -18,8 +17,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
-import { useBalancesStore } from "@/lib/stores/balances";
 import {
   useCreatePool,
   usePoolsStore,
@@ -33,6 +30,7 @@ import { EyeIcon, ScrollTextIcon } from "lucide-react";
 import Link from "next/link";
 import { PublicKey } from "o1js";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -45,7 +43,6 @@ const formSchema = z.object({
 export default function PoolsPage() {
   const { pools } = usePoolsStore();
   const { wallet } = useWalletStore();
-  const { toast } = useToast();
   const { mutate, isPending } = useCreatePool();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -59,10 +56,7 @@ export default function PoolsPage() {
 
   function handleSubmit(data: z.infer<typeof formSchema>) {
     if (!wallet) {
-      toast({
-        title: "Please connect your wallet",
-        variant: "destructive",
-      });
+      toast.error("Please connect your wallet");
       return;
     }
     if (
@@ -70,10 +64,7 @@ export default function PoolsPage() {
       data.tokenB === undefined ||
       data.tokenA === data.tokenB
     ) {
-      toast({
-        title: "Please select two different tokens",
-        variant: "destructive",
-      });
+      toast.info("Please select two different tokens");
       return;
     }
     mutate({

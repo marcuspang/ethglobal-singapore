@@ -1,4 +1,4 @@
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { Balance, BalancesKey, TokenId } from "@proto-kit/library";
 import { PendingTransaction } from "@proto-kit/sequencer";
 import { useMutation } from "@tanstack/react-query";
@@ -134,11 +134,7 @@ export const useDrip = () => {
       return pendingTransaction;
     },
     onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast.error("Error", { description: error.message });
     },
   });
 };

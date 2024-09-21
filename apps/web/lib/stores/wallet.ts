@@ -1,9 +1,9 @@
-import { useToast } from "@/components/ui/use-toast";
 import { MethodIdResolver } from "@proto-kit/module";
 import { PendingTransaction, UnsignedTransaction } from "@proto-kit/sequencer";
 import { usePrevious } from "@uidotdev/usehooks";
 import { Field, PublicKey, Signature, UInt64 } from "o1js";
 import { useCallback, useEffect, useMemo } from "react";
+import { toast } from "sonner";
 import truncateMiddle from "truncate-middle";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
@@ -84,7 +84,6 @@ export const useWalletStore = create<WalletState>()(
 export const useNotifyTransactions = () => {
   const wallet = useWalletStore();
   const chain = useChainStore();
-  const { toast } = useToast();
   const client = useClientStore();
 
   const previousPendingTransactions = usePrevious(wallet.pendingTransactions);
@@ -133,8 +132,7 @@ export const useNotifyTransactions = () => {
         }
       }
 
-      toast({
-        title: title(),
+      toast.info(title(), {
         description: `Hash: ${hash}${statusMessage ? `\nMessage: ${statusMessage}` : ""}`,
       });
     },

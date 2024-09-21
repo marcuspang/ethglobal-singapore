@@ -17,15 +17,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { useToast } from "@/components/ui/use-toast";
 import { useBalancesStore } from "@/lib/stores/balances";
-import { useClientStore } from "@/lib/stores/client";
 import { useAddLiquidity, usePoolsStore } from "@/lib/stores/pools";
-import { useWalletStore } from "@/lib/stores/wallet";
 import { Balance, TokenId } from "@proto-kit/library";
 import { PoolKey } from "chain/dist/runtime/modules/xyk/pool-key";
 import { TokenPair } from "chain/dist/runtime/modules/xyk/token-pair";
-import { ChevronDownIcon, PlusIcon, SettingsIcon } from "lucide-react";
+import { PlusIcon, SettingsIcon } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -48,11 +45,8 @@ export default function LendingPage() {
   );
   const [slippage, setSlippage] = useState<number>(0.5); // in %
 
-  const client = useClientStore();
   const balances = useBalancesStore();
-  const wallet = useWalletStore();
   const pools = usePoolsStore();
-  const { toast } = useToast();
 
   const inTokenBalance = balances.balances[inToken.toString()] || "0";
   const outTokenBalance = balances.balances[outToken.toString()] || "0";
