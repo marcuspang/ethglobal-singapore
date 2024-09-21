@@ -10,6 +10,7 @@ export default function GuidePage() {
           Creating a Pool: Go to pools page and click "Create Pool". You will
           need to pay a fee to create the pool.
         </li>
+        <li>Lending: Go to the lending page and click "Lend" to earn yield.</li>
         <li>
           Creating an Order: Go to the exchange page and click "Create Order".
           You will need to pay a fee to create the order. Whenever such an order
@@ -17,7 +18,8 @@ export default function GuidePage() {
           to make sure that the order is filled with existing orders.
         </li>
         <li>
-          Click on "Your Balances" to see your balances for each token ID.
+          Click on "Your Balances" on the top right corner to see your balances
+          for each token ID.
         </li>
       </ol>
     </div>
