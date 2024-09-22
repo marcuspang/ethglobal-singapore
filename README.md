@@ -1,23 +1,25 @@
 # Dark Pools on Mina
 
+Frontend Demo: [https://www.youtube.com/watch?v=ALrna1jMT3Q](https://www.youtube.com/watch?v=ALrna1jMT3Q)
+
 A dark pool is useful for the following reasons:
 
 1. separate from public trading pool, mitigate price impact with large volume
-2. private trades, avoid being front-runned, MEV
+2. private orders, avoid being front-runned, MEV
 3. less slippage
 
 In my proto-kit app, I have achieved the following:
 
-- private trade matching (using custom sequencer)
-- delayed trade execution (based on block heights)
+- private order matching (using custom sequencer)
+- delayed order execution (based on block heights)
 - expiration of orders (based on block heights)
 - public LP operations
-- public trade submission
+- public order submission
 - public token registry for pools (unique based on token pair)
 
 ## Other Approaches
 
-1. Submit ZKPs to `submitOrder` function, which will then update the order book commitment, and the protocol will perform the trade matching separately.
+1. Submit ZKPs to `submitOrder` function, which will then update the order book commitment, and the protocol will perform the order matching separately.
    - This approach required some sort of off-chain storage of orders, which could be considered an improvement over the current implementation where order book is public
    - However, this runs into the same problem where 2 incoming orders using the same commitment will be incompatible, since the proof generated does not account for the other other's submission
    - My attempt to use a ZKP is in https://github.com/marcuspang/ethglobal-singapore/pull/1
@@ -30,13 +32,13 @@ In my proto-kit app, I have achieved the following:
 - [x] Whitelist users for a dark pool
   - [x] With specific address
   - [ ] With zk proof
-- [ ] Execute trades with private values
-  - [x] Optionally, make the trade public
+- [ ] Execute orders with private values
+  - [x] Optionally, make the order public
 - [x] Anyone can add liquidity to dark pools
   - [x] UI
 - [x] Anyone can remove liquidity from dark pools
   - [ ] UI
-- [ ] Provide hooks for before and after trades (expose some address field for IHook function)
+- [ ] Provide hooks for before and after orders (expose some address field for IHook function)
   - [x] custom timestamp for calling match order
 
 ## Architecture
@@ -58,7 +60,7 @@ graph TD
     LP --> RN
 
     UW -- createPool, whitelistUser, addLiquidity, removeLiquidity --- RN
-    UW -- submitTrade ---> CZKP
+    UW -- submitOrder ---> CZKP
     CZKP ---> RN
 ```
 
